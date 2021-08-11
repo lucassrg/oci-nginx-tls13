@@ -177,6 +177,7 @@ Set the compartment where the instance is running. You can specify either a `com
 
 
 #### Filter resources by compartment_ocid
+Enter the compartment ocid. This is available in the IAM services.
 ```
 compartments:
 
