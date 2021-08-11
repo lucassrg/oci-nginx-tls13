@@ -1,5 +1,5 @@
-#optional
-#certbot_mail_address: <e-mail for letsencrypt notifications>
+# Provide an email for registering the certificate with Let'sEncrypt
+certbot_mail_address: "<e-mail for letsencrypt registration>"
 
 #domain: myapp.domain.com
 ## Uses a wildcard DNS service like nip.io, sslip.io or pseudo.host. 

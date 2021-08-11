@@ -10,6 +10,7 @@ In this document we are going to install nginx, setup TLSv1.3 with a valid certi
 - SSH Access to the Compute instance via Public IP
 - Access to OCI Cloud Shell or a Linux box to run python/ansible
 - Python 3
+- E-mail address for registering the SSL certificate with Let'sEncrypt
 
 ## Cloud Shell
 
@@ -225,7 +226,7 @@ The playbook is responsible for setting up Linux firewall policies, OS security,
 
 There are 3 variables file on the playbook:
 
-- `default.yml`: contains domain and SSL certificate variables
+- `default.yml`: contains variables for DNS domain and SSL configuration.
 - `os_OracleLinux8.yml`: contains variables with the package names/versions used on Oracle Linux 8.
 - `os_Ubuntu20.yml`: contains variables with the package names/versions used on Ubuntu 20.
 
@@ -233,7 +234,11 @@ By default, the playbook use the public IP address of the instance to generate a
 
 If the public IP of the compute instance is already associated with a DNS "A" record, assign the DNS domain name to the `domain` variable in the default variables file. 
 
+You also need to set the `certbot_mail_address` variable with a valid e-mail address in the `default.yml` file.
+
 To run the playbook, use the instructions below for each operating system. 
+
+**NOTE**: *Running the playbook will change the state of the instance and cannot be undone. In case you have an instance with existing content, make sure you have a backup prior to run the playbook.*
 
 ###  Oracle Linux 8
 
