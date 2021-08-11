@@ -187,7 +187,10 @@ We need to import the SSH private key file that Ansible will use to authenticate
 
 1. Update the variable `ansible_ssh_private_key_file` in the `inventory\vars.yml` with the path to the file, e.g.:
 ```
-ansible_ssh_private_key_file: ""    
+all:
+  vars:
+    ansible_user: "opc"
+    ansible_ssh_private_key_file: "/home/<oci_user>/<ssh_private_key_file>"
 ```
 
 
@@ -222,9 +225,9 @@ The playbook is responsible for setting up Linux firewall policies, OS security,
 
 There are 3 variables file on the playbook:
 
-- default.yml: contains domain and SSL certificate variables
-- os_OracleLinux8.yml: contains variables with the package names/versions used on Oracle Linux 8.
-- os_Ubuntu20.yml: contains variables with the package names/versions used on Ubuntu 20.
+- `default.yml`: contains domain and SSL certificate variables
+- `os_OracleLinux8.yml`: contains variables with the package names/versions used on Oracle Linux 8.
+- `os_Ubuntu20.yml`: contains variables with the package names/versions used on Ubuntu 20.
 
 By default, the playbook use the public IP address of the instance to generate a valid certificate, using free DNS wildcard services like nip.io, sslip.io or pseudo.host. 
 
