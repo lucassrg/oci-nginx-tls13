@@ -2,6 +2,6 @@ all:
   vars:
     # Ansible Settings
     ansible_user: "opc"
-    ansible_ssh_private_key_file: "/Users/lgomes/Documents/Oracle/projects/oci-keys/lucas_oci_ssh"    
-    compartment_name: "lucas"
+    ansible_ssh_private_key_file: "</path-to-ssh-private-key>"    
+    compartment_name: "<my_compartment>"
     
