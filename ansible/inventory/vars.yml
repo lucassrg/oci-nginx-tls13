@@ -1,7 +1,5 @@
 all:
   vars:
-    # Ansible Settings
     ansible_user: "opc"
     ansible_ssh_private_key_file: "</path-to-ssh-private-key>"    
-    compartment_name: "<my_compartment>"
     

@@ -1,2 +1,3 @@
 ---
 # defaults file for sample_nodejs_app
+hello_app_path: "/home/{{ ansible_user }}/oci-hellojs/"

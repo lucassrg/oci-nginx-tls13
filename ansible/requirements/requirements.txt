@@ -1,4 +1,4 @@
 # Python requirements
-
+ansible
 # Oracle Cloud infrastructure
 oci

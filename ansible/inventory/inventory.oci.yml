@@ -2,8 +2,8 @@
 plugin: oracle.oci.oci
 
 # OCI Config information
-config_file: ~/.oci/config
-config_profile: DEFAULT
+# config_file: ~/.oci/config
+# config_profile: DEFAULT
 
 ## Optional fields
 
