@@ -1,0 +1,8 @@
+- name: install Let's Encrypt certbot package
+  dnf:
+    name: python3-certbot-nginx
+    enablerepo: ol8_developer_EPEL
+    state: latest
+  become: yes
+  when: 
+    - (ansible_facts['distribution'] == 'OracleLinux') and (ansible_facts['distribution_major_version'] == "8")

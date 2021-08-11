@@ -1,0 +1,19 @@
+---
+# tasks file for nginx
+
+- name: start nginx
+  service:
+      name: nginx
+      state: started
+  become: yes
+
+- name: copy nginx default.conf
+  template:
+    src: templates/default.conf.j2
+    dest: "{{ nginx_config_folder }}{{ domain }}.conf"
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart nginx
+  become: yes
+  

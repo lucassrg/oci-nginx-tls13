@@ -1,0 +1,4 @@
+---
+# defaults file for certbot
+demo_dns_domain: "sslip.io"
+domain: "{{ ansible_host }}.{{ demo_dns_domain }}"

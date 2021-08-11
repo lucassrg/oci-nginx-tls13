@@ -1,0 +1,30 @@
+---
+# tasks file for sample_nodejs_app
+
+- name: create app folder
+  ansible.builtin.file: 
+    path: "{{ hello_app_path }}"
+    state: directory
+    mode: '0755'
+
+- name: copy hello.js
+  template:
+    src: templates/hello.js.j2
+    dest: "{{ hello_app_path }}/hello.js"
+    owner: root
+    group: root
+    mode: '0644'
+  become: yes
+
+- name: install pm2 package
+  ansible.builtin.command: 
+    cmd: "npm install pm2 -g"
+    chdir: "{{ hello_app_path }}"
+  become: yes
+
+- name: start nodejs app
+  ansible.builtin.command: 
+    cmd: "pm2 start hello.js &"
+    chdir: "{{ hello_app_path }}"
+  async: 10
+  poll: 0

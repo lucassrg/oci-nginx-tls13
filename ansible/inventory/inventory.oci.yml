@@ -1,0 +1,37 @@
+# file inventory.oci.yml
+plugin: oracle.oci.oci
+
+# OCI Config information
+config_file: ~/.oci/config
+config_profile: DEFAULT
+
+## Optional fields
+
+# ----------------------------
+# select regions
+regions:
+  - us-ashburn-1
+  # - us-phoenix-1
+
+debug: true
+
+# Enable threads to speedup lookup
+enable_parallel_processing: yes
+fetch_compute_hosts: yes
+
+# Filter resources in a compartment by ocid or name
+compartments:
+
+  # - compartment_ocid: "<compartment_ocid>"
+  #   fetch_hosts_from_subcompartments: false
+  
+  - compartment_name: "<compartment_name>"
+    #required if compartment_name is not a child of root compartment
+    #parent_compartment_ocid: "<tenancy_ocid or parent_compartment_ocid>"
+
+# Metadata used to filter hosts. Instance must have a specific freeform_tags and must be running
+filters:
+- freeform_tags: {
+  "role": "webserver"
+}
+- lifecycle_state: "RUNNING"

@@ -1,0 +1,5 @@
+- name: Run the equivalent of "dnf -y update"
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+  become: yes

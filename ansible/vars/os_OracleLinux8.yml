@@ -1,0 +1,5 @@
+nginx_package: "nginx-1.14.1"
+nginx_config_folder: "/etc/nginx/conf.d/" 
+
+npm_package: "npm-6.14.11"
+nodejs_package: "nodejs-10.24.0"

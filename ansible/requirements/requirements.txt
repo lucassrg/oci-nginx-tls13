@@ -1,0 +1,4 @@
+# Python requirements
+
+# Oracle Cloud infrastructure
+oci

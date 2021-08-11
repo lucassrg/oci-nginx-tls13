@@ -1,0 +1,23 @@
+---
+# tasks file for certbot
+
+- include_tasks: main_OracleLinux8.yml
+  when: (ansible_facts['distribution'] == 'OracleLinux') and (ansible_facts['distribution_major_version'] == "8")
+
+- include_tasks: main_Ubuntu20.yml
+  when: (ansible_facts['distribution'] == 'Ubuntu') and (ansible_facts['distribution_major_version'] == "20")
+
+- name: install certbot nginx plugin
+  ansible.builtin.command: "certbot --nginx -d  {{ domain }} -m {{ certbot_mail_address }} --agree-tos --noninteractive --redirect"    
+  register: certbot_nginx_plugin      
+  become: true
+  when: certbot_mail_address is defined
+
+- name: install certbot nginx plugin without an email
+  ansible.builtin.command: "certbot --nginx -d  {{ domain }} --agree-tos --noninteractive --redirect"    
+  register: certbot_nginx_plugin      
+  become: true
+  when: certbot_mail_address is not defined
+
+- name: Flush handlers
+  meta: flush_handlers  

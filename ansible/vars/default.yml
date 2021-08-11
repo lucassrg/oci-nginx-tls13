@@ -1,0 +1,7 @@
+#optional
+#certbot_mail_address: <e-mail for letsencrypt notifications>
+
+#domain: myapp.domain.com
+## Uses a wildcard DNS service like nip.io, sslip.io or pseudo.host. 
+## hostname = <public ip in the format of n-n-n-n>.<service-url>, e.g. 192-168-0-1.sslip.io
+domain: "{{ ansible_host | replace('.','-') }}.sslip.io"

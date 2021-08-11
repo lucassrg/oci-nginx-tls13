@@ -1,0 +1,26 @@
+---
+# tasks file for firewall-cmd
+- name: permit traffic in default zone for https service
+  ansible.posix.firewalld:
+    service: https
+    permanent: yes
+    state: enabled
+  become: yes
+  when: 
+    - (ansible_facts['distribution'] == 'OracleLinux') and (ansible_facts['distribution_major_version'] == "8")
+
+
+- name: permit traffic in default zone for http service
+  ansible.posix.firewalld:
+    service: http
+    permanent: yes
+    state: enabled        
+  become: yes
+  when: 
+    - (ansible_facts['distribution'] == 'OracleLinux') and (ansible_facts['distribution_major_version'] == "8")
+
+
+- name: Reload firewall-cmd
+  shell:
+    "firewall-cmd --reload"
+  become: yes

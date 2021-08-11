@@ -1,0 +1,4 @@
+- name: Run the equivalent of "apt-get update"
+  ansible.builtin.apt:
+    update_cache: yes
+  become: yes

@@ -1,0 +1,39 @@
+---
+# file: main.yml
+
+
+- name: Fetch all hosts to classify them
+  hosts: all
+  tasks:
+    - name: Classify hosts depending on their OS distribution
+      group_by:
+        key: "os_{{ ansible_facts['distribution'] + ansible_facts['distribution_major_version'] }}"
+        
+
+- name: Install nginx with support to TLSv1.3 on Oracle Linux 8 
+  hosts: os_OracleLinux8
+  vars_files:
+    - vars/default.yml
+    - "vars/os_{{ ansible_facts['distribution'] + ansible_facts['distribution_major_version'] }}.yml"
+  roles:
+    - common
+    - firewall-cmd
+    - selinux
+    - nginx
+    - sample_nodejs_app
+    - certbot
+    - validate
+
+- name: Install nginx with support to TLSv1.3 on Ubuntu 20
+  hosts: os_Ubuntu20
+  vars_files:
+    - vars/default.yml
+    - "vars/os_{{ ansible_facts['distribution'] + ansible_facts['distribution_major_version'] }}.yml"
+  roles:
+    - common
+    - iptables
+    - nginx
+    - sample_nodejs_app
+    - certbot
+    - validate
+        

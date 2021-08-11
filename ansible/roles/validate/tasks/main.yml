@@ -1,0 +1,13 @@
+---
+# tasks file for validate
+- name: Check that a page returns a status 200 and fail if the word Hello World is not in the page contents
+  ansible.builtin.uri:
+    url: "https://{{ domain }}/"
+    return_content: yes
+  register: this
+  failed_when: "'Hello World' not in this.content"
+
+
+- name: Print Application URL
+  ansible.builtin.debug:
+    msg: "https://{{ domain }}/"

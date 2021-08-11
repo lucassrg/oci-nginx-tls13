@@ -1,0 +1,7 @@
+- name: install Let's Encrypt certbot package
+  ansible.builtin.package:
+      name: python3-certbot-nginx
+      state: latest
+  become: yes
+  when: 
+    - (ansible_facts['distribution'] == 'Ubuntu') and (ansible_facts['distribution_major_version'] == "20")

@@ -1,0 +1,29 @@
+---
+# tasks file for common
+
+- include_tasks: main_OracleLinux8.yml
+  when: (ansible_facts['distribution'] == 'OracleLinux') and (ansible_facts['distribution_major_version'] == "8")
+
+- include_tasks: main_Ubuntu20.yml
+  when: (ansible_facts['distribution'] == 'Ubuntu') and (ansible_facts['distribution_major_version'] == "20")
+
+
+- name: ensure required packages installed
+  ansible.builtin.package:
+      name:           
+        - "{{ nginx_package }}"
+        - "{{ nodejs_package }}"
+        - "{{ npm_package }}"            
+      state: present
+  become: yes
+
+- name: Version of Node, NPM and nginx
+  shell:
+    "node -v && npm -v && nginx -v"
+  register: versioninfo
+
+- name: Version Info
+  debug:
+    msg: "Version info [npm, node, nginx] {{ versioninfo.stdout_lines + versioninfo.stderr_lines }}"
+    # msg: "Version info [npm, node, nginx] {{ versioninfo }}"
+  when: versioninfo is changed
