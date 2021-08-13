@@ -252,15 +252,74 @@ The playbook is responsible for setting up Linux firewall policies, OS security,
 
 There are 3 variables file on the playbook:
 
-- `default.yml`: contains variables for DNS domain and SSL configuration.
-- `os_OracleLinux8.yml`: contains variables with the package names/versions used on Oracle Linux 8.
-- `os_Ubuntu20.yml`: contains variables with the package names/versions used on Ubuntu 20.
+- `default.yml`: contains variables related to the application and SSL configuration.
+- `os_OracleLinux8.yml`: contains variables with the package names/versions installed on Oracle Linux 8.
+- `os_Ubuntu20.yml`: contains variables with the package names/versions installed on Ubuntu 20.
 
-By default, the playbook use the public IP address of the instance to generate a valid certificate, using free DNS wildcard services like nip.io, sslip.io or pseudo.host. 
+### default.yml variables
 
-If the public IP of the compute instance is already associated with a DNS "A" record, assign the DNS domain name to the `domain` variable in the default variables file. 
+Update the following variables:
 
-You also need to set the `certbot_mail_address` variable with a valid e-mail address in the `default.yml` file.
+| `certbot_mail_address`
+
+You need to specify a valid e-mail address for Certbot/Let's Encrypt to generate/manage the SSL certificate.
+
+| `domain`
+
+By default, the playbook uses the public IP address of the instance to generate a valid certificate, registered against a `sslip.io` free DNS wildcard service. You can change the variable to use other free services like nip.io, sslip.io or pseudo.host.
+
+Alternatively, if the public IP of the compute instance is already associated with a DNS "A" record, enter the registered DNS domain name into the variable.
+
+| `git_repository_http_url`
+
+You can point to your public git repository where your nodejs application source code is hosted. By default, the application is using a sample nodejs application which supports HTTPS. E.g.
+```
+git_repository_http_url: "https://github.com/sherwoodzern/weatherApp-webserver.git"
+```
+
+| `nodejs_app_install_dir`
+
+Full path to the directory where the application will be installed. E.g.
+```
+nodejs_app_install_dir: "/var/nodejs_app/"
+```
+
+| `nodejs_app_base_dir`
+
+Full path to the directory containing the application base code. It could match the `nodejs_app_install_dir` variable in case you have one application in the git repo. E.g.:
+```
+nodejs_app_base_dir: "/var/nodejs_app/"
+```
+or
+```
+nodejs_app_base_dir: "/var/nodejs_app/app1"
+```
+
+| `app_env_variables`
+
+A dictionary variable that contains all environment variables used by the nodejs application. 
+
+E.g.:
+
+```
+app_env_variables:
+  KEY1: "VALUE1" 
+  KEY2: "VALUE2"
+```
+
+In our sample application we have the following:
+
+```
+app_env_variables: 
+  MAPBOX_API_KEY: "mapbox_api_key"
+  WEATHER_STACK_API_KEY: "weatherkey1"
+  PATH_TO_SSL_CERTIFICATE_PRIVATE_KEY_FILE: "/etc/letsencrypt/live/{{ domain }}/privkey.pem"
+  PATH_TO_SSL_CERTIFICATE_FILE: "/etc/letsencrypt/live/{{ domain }}/fullchain.pem"
+  node_app_startup_command: "node -r dotenv/config src/app.js &"
+```
+
+
+### Running the playbook
 
 To run the playbook, use the instructions below for each operating system. 
 
