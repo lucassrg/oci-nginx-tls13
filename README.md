@@ -286,13 +286,14 @@ nodejs_app_install_dir: "/var/nodejs_app/"
 
 | `nodejs_app_base_dir`
 
-Full path to the directory containing the application base code. It could match the `nodejs_app_install_dir` variable in case you have one application in the git repo. E.g.:
+Full path to the application root directory. 
+E.g.:
 ```
 nodejs_app_base_dir: "/var/nodejs_app/"
 ```
 or
 ```
-nodejs_app_base_dir: "/var/nodejs_app/app1"
+nodejs_app_base_dir: "/var/nodejs_app/application1/"
 ```
 
 | `app_env_variables`
@@ -307,7 +308,7 @@ app_env_variables:
   KEY2: "VALUE2"
 ```
 
-In our sample application we have the following:
+In our sample application you just need to update the API keys for the services the application is consuming.
 
 ```
 app_env_variables: 
