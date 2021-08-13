@@ -10,20 +10,54 @@
 
 - name: ensure required packages installed
   ansible.builtin.package:
-      name:           
-        - "{{ nginx_package }}"
-        - "{{ nodejs_package }}"
-        - "{{ npm_package }}"            
-      state: present
+    name:           
+      - "{{ nginx_package }}"
+      - "{{ nodejs_package }}"
+      - "{{ npm_package }}"
+      - "{{ git_package }}"           
+    state: present
   become: yes
 
-- name: Version of Node, NPM and nginx
-  shell:
+
+# - name: Install NVM Node
+#   block:
+#     - name: Install nvm
+#       ansible.builtin.shell: >
+#         curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+#       args:
+#         executable: /bin/bash
+#         chdir: "$HOME"
+#         creates: "$HOME/.nvm/nvm.sh"
+
+#     - name: Setup .bash_profile
+#       ansible.builtin.lineinfile:
+#         path: ~/.bash_profile
+#         line: source ~/.nvm/nvm.sh # This will make sure Node is on the user's PATH
+#         create: yes
+
+#     - name: Install node
+#       ansible.builtin.shell: |
+#         nvm install {{item}}
+#       args:
+#         executable: /usr/bin/bash
+#         chdir: "$HOME"
+#         creates: "$HOME/.nvm/versions/node/v{{item}}"
+#       loop:
+#         - "{{ nodejs_version }}"
+
+
+
+
+- name: Version of node, npm and nginx
+  ansible.builtin.shell:
     "node -v && npm -v && nginx -v"
   register: versioninfo
+  # become: yes
+  # become_user: nodejs
 
 - name: Version Info
   debug:
-    msg: "Version info [npm, node, nginx] {{ versioninfo.stdout_lines + versioninfo.stderr_lines }}"
-    # msg: "Version info [npm, node, nginx] {{ versioninfo }}"
+    msg: "Version info [node, npm, nginx] {{ versioninfo.stdout_lines + versioninfo.stderr_lines }}"
   when: versioninfo is changed
+  # become: yes
+  # become_user: nodejs

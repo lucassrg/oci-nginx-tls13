@@ -1,0 +1,8 @@
+---
+# defaults file for deploy-git-app
+app_name: "my-app"
+nodejs_app_base_dir: "/var/nodejs_app/"
+main_js_file: "src/app.js"
+app_env_variables: 
+  KEY: "VALUE"
+  

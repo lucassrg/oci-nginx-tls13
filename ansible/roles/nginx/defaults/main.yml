@@ -1,2 +1,4 @@
 ---
 # defaults file for nginx
+demo_dns_domain: "sslip.io"
+domain: "{{ ansible_host | replace('.','-') }}.{{ demo_dns_domain }}"

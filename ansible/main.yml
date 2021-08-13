@@ -9,6 +9,12 @@
       group_by:
         key: "os_{{ ansible_facts['distribution'] + ansible_facts['distribution_major_version'] }}"
         
+    # - name: Set OS distribution dependent variables
+    #   ansible.builtin.include_vars: 
+    #     dir: group_vars
+    #     files_matching: "os_{{ ansible_facts['distribution'] + ansible_facts['distribution_major_version'] }}.yml"
+
+
 
 - name: Install nginx with support to TLSv1.3 on Oracle Linux 8 
   hosts: os_OracleLinux8
@@ -20,8 +26,9 @@
     - firewall-cmd
     - selinux
     - nginx
-    - sample_nodejs_app
+    # - sample_nodejs_app    
     - certbot
+    - deploy-nodejs-git-app
     - validate
 
 - name: Install nginx with support to TLSv1.3 on Ubuntu 20
@@ -33,7 +40,8 @@
     - common
     - iptables
     - nginx
-    - sample_nodejs_app
+    # - sample_nodejs_app
     - certbot
+    - deploy-nodejs-git-app    
     - validate
         

@@ -1,2 +1,3 @@
 ---
 # defaults file for common
+git_package: git

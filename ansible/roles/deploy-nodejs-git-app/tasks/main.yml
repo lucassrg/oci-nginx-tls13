@@ -1,0 +1,46 @@
+---
+# tasks file for deploy-git-app
+- name: ensure {{ nodejs_app_install_dir }} exists
+  file:
+    path: "{{ nodejs_app_install_dir }}"
+    state: "directory"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+  become: yes
+
+- name: git checkout from git repo
+  ansible.builtin.git:
+    repo: "{{ git_repository_http_url }}"
+    dest: "{{ nodejs_app_install_dir }}"
+    force: yes
+
+- name: generate pm2.config.js file
+  template:
+    src: templates/pm2.config.js.j2
+    dest: "{{ nodejs_app_base_dir }}/pm2.config.js"
+
+- name: install dotenv package
+  npm:
+    name: dotenv
+    path: "{{ nodejs_app_base_dir }}"
+    state: present
+
+- name: install pm2 package
+  npm:
+    name: pm2
+    path: "{{ nodejs_app_base_dir }}"
+    state: present
+    global: yes
+  become: yes
+
+
+- name: start nodejs app with pm2
+  ansible.builtin.command: 
+    cmd: "pm2 start pm2.config.js"
+    chdir: "{{ nodejs_app_base_dir }}"
+
+
+- name: pm2 save
+  ansible.builtin.command: 
+    cmd: "pm2 save"
+    chdir: "{{ nodejs_app_base_dir }}"

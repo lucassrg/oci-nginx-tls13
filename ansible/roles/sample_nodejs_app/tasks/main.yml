@@ -6,11 +6,21 @@
     path: "{{ hello_app_path }}"
     state: directory
     mode: '0755'
+  register: app_folder
+
+- name: copy app environment variables to .env folder
+  template:
+    src: templates/app_dotenv_config.j2
+    dest: "{{ env_folder.path }}/.env"
+    # owner: root
+    # group: root
+    mode: '0644'
+  become: yes
 
 - name: copy hello.js
   template:
     src: templates/hello.js.j2
-    dest: "{{ hello_app_path }}/hello.js"
+    dest: "{{ app_folder.path }}/hello.js"
     owner: root
     group: root
     mode: '0644'
@@ -22,9 +32,19 @@
     chdir: "{{ hello_app_path }}"
   become: yes
 
+- name: install dotenv package
+  ansible.builtin.command: 
+    cmd: "npm install dotenv -g"
+    chdir: "{{ hello_app_path }}"
+  become: yes
+
 - name: start nodejs app
   ansible.builtin.command: 
-    cmd: "pm2 start hello.js &"
+    cmd: "pm2 start hello.js -f"
     chdir: "{{ hello_app_path }}"
-  async: 10
-  poll: 0
+  become: yes
+
+- name: restart nodejs app
+  ansible.builtin.command: 
+    cmd: "pm2 restart hello.js"
+    chdir: "{{ hello_app_path }}"

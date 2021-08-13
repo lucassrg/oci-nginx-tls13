@@ -1,12 +1,17 @@
 ---
 # tasks file for validate
-- name: Check that a page returns a status 200 and fail if the word Hello World is not in the page contents
+- name: Pause for 10 seconds before checking https://{{ domain }}/
+  pause:
+    seconds: 10
+
+- name: Check that a page returns a status 200 and fail if "502 Bad Gateway" in the body of the page.
   ansible.builtin.uri:
     url: "https://{{ domain }}/"
     return_content: yes
+    status_code: 200
+    timeout: 60
   register: this
-  failed_when: "'Hello World' not in this.content"
-
+  failed_when: "'502 Bad Gateway' in this.content"  
 
 - name: Print Application URL
   ansible.builtin.debug:
