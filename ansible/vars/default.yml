@@ -5,3 +5,16 @@ certbot_mail_address: "<e-mail for letsencrypt registration>"
 ## Uses a wildcard DNS service like nip.io, sslip.io or pseudo.host. 
 ## hostname = <public ip in the format of n-n-n-n>.<service-url>, e.g. 192-168-0-1.sslip.io
 domain: "{{ ansible_host | replace('.','-') }}.sslip.io"
+
+#Application related environment variables:
+git_repository_http_url: "https://github.com/sherwoodzern/weatherApp-webserver.git"
+
+nodejs_app_install_dir: "/var/nodejs_app/"
+nodejs_app_base_dir: "/var/nodejs_app/"
+
+app_env_variables: 
+  MAPBOX_API_KEY: "<MAPBOX_API_KEY>"
+  WEATHER_STACK_API_KEY: "<WEATHER_STACK_API_KEY>"
+  PATH_TO_SSL_CERTIFICATE_PRIVATE_KEY_FILE: "/etc/letsencrypt/live/{{ domain }}/privkey.pem"
+  PATH_TO_SSL_CERTIFICATE_FILE: "/etc/letsencrypt/live/{{ domain }}/fullchain.pem"
+  node_app_startup_command: "node -r dotenv/config src/app.js &"
