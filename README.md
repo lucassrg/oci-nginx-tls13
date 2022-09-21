@@ -1,5 +1,7 @@
 # Setup TLSv1.3 on nginx with Ansible
 
+TLS 1.3 is the latest version of the TLS protocol. TLS, which is used by HTTPS and other network protocols for encryption, is the modern version of SSL. TLS 1.3 dropped support for older, less secure cryptographic features, and it sped up TLS handshakes, among other improvements.
+
 In this document we are going to install nginx, setup TLSv1.3 with a valid certificate based on Let's Encrypt and deploy a sample nodejs application with support to TLSv1.3.
 
 
